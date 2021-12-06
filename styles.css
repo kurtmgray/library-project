@@ -73,6 +73,7 @@ header {
 
 .card {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     border: 2px solid black;
@@ -89,4 +90,8 @@ header {
     inline-size: 180px;
     overflow-wrap: break-word;
 
+}
+
+.remove {
+    display: block;
 }

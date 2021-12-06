@@ -9,16 +9,16 @@
 <body>
     <div class="form-wrapper" style="display: none">
         <div class="form-container">
-            <form class="form-content">
+            <form class="form-content" id="form" action="script.js">
                 <h2>Add a Book</h2>
                 <label for="title">Title:</label><br>
-                <input type="text" id="title"><br>
+                <input type="text" name="title" id="title"><br>
                 <label for="author">Author:</label><br>
-                <input type="text" id="author"><br>
+                <input type="text" name="author" id="author"><br>
                 <label for="pages">Pages:</label><br>
-                <input type="text" id="pages"><br>
+                <input type="text" name="pages" id="pages"><br>
                 <label for="read-status">Read yet?:</label>
-                <input type="checkbox" id="read-status"><br>
+                <input type="checkbox" name="read" id="read"><br>
                 <input type="submit" class="submit" value="Submit">
                 <button type="button" class="close">Close</button>
             </form>
@@ -30,13 +30,15 @@
             <button class="open-form">Add Book</button>
         </header>
         <div class="card-container"> 
-            <div class="card">
+            <div class="card" style="display: none">
                 <div class="card-content">
-                    <h2>Book Title</h2>
-                    <h3>Author Person</h3>
-                    <P>number of pages</p>
-                    <p>Read Status: Yes</p>
-                </div>
+                    <h2 class="title">Book Title</h2>
+                    <h3 class="author">Author Person</h3>
+                    <p class="pages">number of pages</p>
+                    <button class="read">Read Status: Yes</button>
+                    <button class="remove">Remove Book</button>
+                </div>    
+            <button class="remove">Remove Book</button>
             </div>
         </div>       
     </div>

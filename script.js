@@ -1,90 +1,105 @@
-const cardContainerDiv = document.querySelector('.card-container');
+let myLibrary = []
+
 const addBookForm = document.querySelector('.form-wrapper')
-
-let title = document.getElementById('title').value;
-let author = document.getElementById('author').value;
-let pages = document.getElementById('pages').value;
-let read = document.getElementById('read-status').value;
-
 const submitButton = document.querySelector('.submit');
 const addBookButton = document.querySelector('.open-form');
 const closeFormButton = document.querySelector('.close');
 
-let myLibrary = [
-    {
-        title: 'The Fellowship of the Ring',
-        author: 'J.R.R. Tolkien',
-        pages: '423',
-        read: false,
-    }
-]
+let book
 
 addBookButton.addEventListener('click', () => {
     addBookForm.style.display = 'block'
-})
+});
 
 closeFormButton.addEventListener('click', () => {
     addBookForm.style.display = 'none'
-})
+});
 
-submitButton.addEventListener('click', (e) => {
-    e.preventDefault()
-    title = document.getElementById('title').value;
-    author = document.getElementById('author').value;
-    pages = document.getElementById('pages').value;
-    read = document.getElementById('read-status').checked;
-    read === true ? read = 'Yes!' : read = 'Not yet.'  
-    console.log(title, author, pages, read)
-    addBook()
-    displayBook()
-    document.getElementById('title').value = ''
-    document.getElementById('author').value = ''
-    document.getElementById('pages').value = ''
-    document.getElementById('read-status').checked = false
-    console.log(title, author, pages, read)
+submitButton.addEventListener('click', addBookToLib); 
+
+class Book {
+    constructor(title, author, pages, read) {
+    this.title = form.title.value
+    this.author = form.author.value
+    this.pages = form.pages.value
+    this.read = form.read.checked
+    this.index = myLibrary.length
+    }
+}    
+
+function addBookToLib() {
+    event.preventDefault()
     addBookForm.style.display = 'none'
-})
-
-
-function Book(title, author, pages, read) {
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.read = read
-    // this.info = function(){
-    //     return `${title} by ${author}, ${pages}, ${read} yet.`
-    // }
-}
-
-function addBook() {
-    const book =  new Book(title, author, pages, read)
-    console.log(book)
+    book = new Book(title, author, pages, read)
     myLibrary.push(book)
-    console.log(myLibrary)
-
+    displayAllBooks()
+    document.querySelector('form').reset()
 }
 
-function displayBook() {
-    cardContainerDiv.innerHTML += (`
-        <div class="card">
-            <div class="card-content">
-                <h2>${title}</h2>
-                <h3>${author}</h3>
-                <P>${pages}</p>
-                <p>Read Status: ${read}</p>
-            </div>
-        </div>
-    `)
+function displayAllBooks() {
+    const container = document.querySelector('.card-container')
+    const cards = document.querySelectorAll('.card')
+    cards.forEach(card => {
+        container.removeChild(card)
+    })
+    for(i = 0; i < myLibrary.length; i++){
+        displayNewBook(myLibrary[i])
+    }    
 }
 
-// if storing the info locally
-function populate() {
-    myLibrary.forEach(book => {
-        title = book.title
-        author = book.author
-        pages = book.pages
-        read === true ? read = 'Yes!' : read = 'Not yet.'
-        displayBook(book)
+function displayNewBook(obj) {
+    console.log(obj.read)
+    const cardContainer = document.querySelector('.card-container')
+    const card = document.createElement('div')
+    const cardContent = document.createElement('div')
+    const title = document.createElement('h2')
+    const author = document.createElement('h3')
+    const pages = document.createElement('p')
+    const readButton = document.createElement('button')
+    const removeButton = document.createElement('button')
+    
+    cardContainer.appendChild(card)
+    
+    card.classList.add('card')
+    card.setAttribute('id', myLibrary.indexOf(obj))
+    
+    cardContent.classList.add('card-content')
+    card.appendChild(cardContent)
+
+    title.classList.add('title')
+    title.innerText = obj.title
+    card.appendChild(title)
+
+    author.classList.add('author')
+    author.innerText = obj.author
+    card.appendChild(author)
+
+    pages.classList.add('pages')
+    pages.innerText = obj.pages
+    card.appendChild(pages)
+
+    readButton.classList.add('read')
+    card.appendChild(readButton)
+    if(obj.read === false){
+        readButton.innerText = "Not read yet."
+    } else {
+        readButton.innerText = "Finished Reading"
+    }
+
+    readButton.addEventListener('click', () => {
+        if(obj.read === true){
+            obj.read = false
+        } else {
+            obj.read = true
+        }
+        displayAllBooks()
+    })
+
+    removeButton.classList.add('.remove')
+    removeButton.innerText = 'Remove Book'
+    card.appendChild(removeButton)
+    removeButton.addEventListener('click', () => {
+        myLibrary.splice(myLibrary.indexOf(obj, 1))
+        displayAllBooks()
     })
 }
-window.onload = populate()
